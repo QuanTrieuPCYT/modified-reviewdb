@@ -6,12 +6,12 @@ import { showToast } from "@vendetta/ui/toasts";
 import { getAssetIDByName } from "@vendetta/ui/assets";
 import { Review } from "../def";
 import { deleteReview, reportReview } from "./api";
-import { canDeleteReview } from "./utils";
+import { canDeleteReview, canReportReview } from "./utils";
 const { hideActionSheet } = findByProps("openLazy", "hideActionSheet");
 const { showSimpleActionSheet } = findByProps("showSimpleActionSheet");
 const showUserProfileActionSheet = findByName("showUserProfileActionSheet");
 
-export default (review: Review) => showSimpleActionSheet({
+export default (review: Review, userPageId: string) => showSimpleActionSheet({
     key: "ReviewOverflow",
     header: {
         title: review.type !== 3 ? `Review by ${review.sender.username}` : "ReviewDB System Message",
@@ -45,7 +45,7 @@ export default (review: Review) => showSimpleActionSheet({
             */
         },
         ...(storage.authToken && review.type !== 3 ? [
-            ...(canDeleteReview(review) ? [{
+            ...(canDeleteReview(review, userPageId) ? [{
                 label: "Delete Review",
                 isDestructive: true,
                 onPress: () => showConfirmationAlert({
@@ -58,7 +58,7 @@ export default (review: Review) => showSimpleActionSheet({
                     onConfirm: () => deleteReview(review.sender.discordID, review.id),
                 })
             }] : []),
-            {
+            ...(canReportReview(review) ? [{
                 label: "Report Review",
                 isDestructive: true,
                 onPress: () => showConfirmationAlert({
@@ -70,7 +70,7 @@ export default (review: Review) => showSimpleActionSheet({
                     confirmColor: "red",
                     onConfirm: () => reportReview(review.id),
                 })
-            }
+            }] : [])
         ]: [])
     ]
 })

@@ -25,7 +25,7 @@ export default function ReviewSection({ userId }: ReviewSectionProps) {
         <ErrorBoundary>
             <UserProfileSection title="Reviews" showContainer>
                 <RN.View style={{ flex: 1 }}>
-                    {reviews.map(i => <ReviewRow review={i} />)}
+                    {reviews.map(i => <ReviewRow review={i} userPageId={userId} />)}
                 </RN.View>
                 <ReviewInput userId={userId} refetch={fetchReviews} shouldEdit={hasExistingReview} />
             </UserProfileSection>

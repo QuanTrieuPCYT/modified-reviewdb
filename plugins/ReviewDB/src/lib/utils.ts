@@ -9,7 +9,8 @@ const resolveSemanticColor: (theme: Theme, semanticColor: object) => string
         ?? find(m => m.meta?.resolveSemanticColor)?.meta.resolveSemanticColor ?? (() => {});
 const { useThemeContext } = findByProps("useThemeContext");
 
-export const canDeleteReview = (review: Review) => review.sender.discordID === getCurrentUser()?.id || admins.includes(getCurrentUser()?.id);
+export const canDeleteReview = (review: Review, userPageId: string) => userPageId == getCurrentUser()?.id || review.sender.discordID === getCurrentUser()?.id || admins.includes(getCurrentUser()?.id);
+export const canReportReview = (review: Review) => review.sender.discordID !== getCurrentUser()?.id;
 
 export async function jsonFetch<T = APIResponse>(input: RequestInfo | URL, options?: RequestInit): Promise<T> {
     const req = await fetch(input, {

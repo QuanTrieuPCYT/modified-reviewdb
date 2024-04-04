@@ -26,7 +26,12 @@ const { FormRow, FormSubLabel } = Forms;
 // This component behaves VERY similarly to this custom one, but subLabel doesn't get themed so... here we are!
 // const UserProfileRow = findByName("UserProfileRow");
 
-export default ({ review }: ReviewRowProps) => (
+interface ReviewRowProps {
+    userPageId: string;
+}
+
+
+export default ({ review, userPageId }: ReviewRowProps) => (
     <FormRow
         label={<ReviewUsername username={review.sender.username} timestamp={renderTimestamp(moment.unix(review.timestamp))} badges={review.sender.badges}/> }
         subLabel={<FormSubLabel text={review.comment} style={{ color: useThemedColor("TEXT_NORMAL") }} />}
@@ -34,6 +39,6 @@ export default ({ review }: ReviewRowProps) => (
         onPress={() => showUserProfileActionSheet({
             userId: review.sender.discordID
           })}
-        onLongPress={() => showReviewActionSheet(review)}
+        onLongPress={() => showReviewActionSheet(review, userPageId)}
     />
 )
