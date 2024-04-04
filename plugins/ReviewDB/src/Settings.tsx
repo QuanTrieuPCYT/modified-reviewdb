@@ -1,9 +1,11 @@
+import { findByProps } from "@vendetta/metro";
 import { ReactNative as RN } from "@vendetta/metro/common";
 import { useProxy } from "@vendetta/storage";
 import { storage } from "@vendetta/plugin";
 import { getAssetIDByName } from "@vendetta/ui/assets";
 import { Forms } from "@vendetta/ui/components";
 import showAuthModal from "./lib/showAuthModal";
+const { ClearButtonVisibility, default: InputView } = findByProps("ClearButtonVisibility");
 
 const { FormSection, FormRow, FormSwitchRow, FormDivider } = Forms;
 
@@ -29,6 +31,13 @@ export default () => {
                 />
             </FormSection>
             <FormSection title="Settings">
+                <FormSwitchRow
+                    label="Show timestamps"
+                    subLabel="Controls whether timestamps should be shown."
+                    leading={<FormRow.Icon source={getAssetIDByName("clock")} />}
+                    value={storage.timestamps}
+                    onValueChange={(v: boolean) => storage.timestamps = v}
+                />
                 <FormSwitchRow
                     label="Use profile-themed send button"
                     subLabel="Controls whether the review send button should attempt to match the user's profile colors."
