@@ -1,9 +1,13 @@
 import { ReactNative as RN, stylesheet } from "@vendetta/metro/common";
+import { findByName } from "@vendetta/metro";
 import { Forms } from "@vendetta/ui/components";
 import { Review } from "../def";
 import { useThemedColor } from "../lib/utils";
 import showReviewActionSheet from "../lib/showReviewActionSheet";
+const showUserProfileActionSheet = findByName("showUserProfileActionSheet");
 import ReviewUsername from "./ReviewUsername";
+import { moment } from "@vendetta/metro/common";
+import renderTimestamp from "../lib/timestamp";
 
 interface ReviewRowProps {
     review: Review;
@@ -24,9 +28,12 @@ const { FormRow, FormSubLabel } = Forms;
 
 export default ({ review }: ReviewRowProps) => (
     <FormRow
-        label={<ReviewUsername username={review.sender.username} badges={review.sender.badges} />}
+        label={<ReviewUsername username={review.sender.username} timestamp={renderTimestamp(moment.unix(review.timestamp))} badges={review.sender.badges}/> }
         subLabel={<FormSubLabel text={review.comment} style={{ color: useThemedColor("TEXT_NORMAL") }} />}
         leading={<RN.Image style={styles.avatar} source={{ uri: review.sender.profilePhoto }} />}
+        onPress={() => showUserProfileActionSheet({
+            userId: review.sender.discordID
+          })}
         onLongPress={() => showReviewActionSheet(review)}
     />
 )

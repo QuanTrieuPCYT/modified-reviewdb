@@ -6,6 +6,7 @@ import ReviewBadge from "./ReviewBadge";
 
 interface ReviewUsernameProps {
     username: string;
+    timestamp: string;
     badges: Badge[];
 }
 
@@ -17,10 +18,12 @@ const styles = stylesheet.createThemedStyleSheet({
 })
 
 const { FormLabel } = Forms;
+const { FormSubLabel } = Forms;
 
-export default ({ username, badges }: ReviewUsernameProps) => (
+export default ({ username, badges, timestamp }: ReviewUsernameProps) => (
     <RN.View style={styles.row}>
         <FormLabel text={username} style={{ color: useThemedColor("TEXT_NORMAL") }} />
+        <FormSubLabel text={timestamp} style={{ color: useThemedColor("TEXT_NORMAL") }}/>
         <RN.View style={styles.row}>{badges.map(b => <ReviewBadge badge={b} />)}</RN.View>
     </RN.View>
 )

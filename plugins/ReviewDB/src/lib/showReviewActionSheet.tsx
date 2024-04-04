@@ -1,5 +1,5 @@
 import { clipboard } from "@vendetta/metro/common";
-import { findByProps } from "@vendetta/metro";
+import { findByName, findByProps } from "@vendetta/metro";
 import { storage } from "@vendetta/plugin";
 import { showConfirmationAlert } from "@vendetta/ui/alerts";
 import { showToast } from "@vendetta/ui/toasts";
@@ -9,6 +9,7 @@ import { deleteReview, reportReview } from "./api";
 import { canDeleteReview } from "./utils";
 const { hideActionSheet } = findByProps("openLazy", "hideActionSheet");
 const { showSimpleActionSheet } = findByProps("showSimpleActionSheet");
+const showUserProfileActionSheet = findByName("showUserProfileActionSheet");
 
 export default (review: Review) => showSimpleActionSheet({
     key: "ReviewOverflow",
@@ -24,6 +25,24 @@ export default (review: Review) => showSimpleActionSheet({
                 clipboard.setString(review.comment);
                 showToast("Copied Review Text", getAssetIDByName("ic_message_copy"));
             }
+            /* // yes later i do realize that this does not work
+            onLongPress: () => {
+                clipboard.setString(String(review.timestamp));
+                showToast("Copied Review Timestamp", getAssetIDByName("ic_message_copy"));
+            }
+            */
+        },
+        {
+            label: "View Profile",
+            onPress: () => showUserProfileActionSheet({
+                userId: review.sender.discordID
+              }),
+            /* // yes later i do realize that this does not work
+            onLongPress: () => {
+                clipboard.setString(review.sender.discordID);
+                showToast("Copied Sender's ID!", getAssetIDByName("ic_message_copy"));
+            }
+            */
         },
         ...(storage.authToken && review.type !== 3 ? [
             ...(canDeleteReview(review) ? [{
