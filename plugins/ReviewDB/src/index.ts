@@ -6,8 +6,10 @@ import exposeAPI from "./patches/exposeAPI";
 // Default settings
 storage.authToken ??= "";
 // storage.timestampsformat ??= "hh:mm A DD/MM/YYYY";
+storage.showWarning ??=true;
 storage.timestamps ??=true;
 storage.useThemedSend ??= true;
+storage.developerThingies ??=false;
 
 const patches = [
     exposeAPI(),

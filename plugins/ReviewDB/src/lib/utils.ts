@@ -29,3 +29,15 @@ export async function jsonFetch<T = APIResponse>(input: RequestInfo | URL, optio
 
 // I think Discord have a hook like this but it confused me to no end, so I made my own!
 export const useThemedColor = (key: string) => resolveSemanticColor(useThemeContext()?.theme ?? "dark", semanticColors[key]);
+
+// ReviewDB broke the hide warning option on the latest update as of 5th April 2024, so this is a fallback mechanism that I came up with
+// Should work as long as they still keep the JSON scheme.
+export function filterReviews(reviews: Review[]): Review[] {
+    return reviews.filter(review => review.id !== 0 && !review.comment.includes("Spamming and writing"));
+}
+
+/*
+export function needsFilter(review: Review): boolean {
+    return review.id === 0 && review.comment.includes("Spamming and writing");
+}
+*/

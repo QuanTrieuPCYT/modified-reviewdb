@@ -6,7 +6,8 @@ import { showToast } from "@vendetta/ui/toasts";
 import { getAssetIDByName } from "@vendetta/ui/assets";
 import { Review } from "../def";
 import { deleteReview, reportReview } from "./api";
-import { canDeleteReview, canReportReview } from "./utils";
+import { canDeleteReview, canReportReview, jsonFetch } from "./utils";
+import { API_URL } from "./constants";
 const { hideActionSheet } = findByProps("openLazy", "hideActionSheet");
 const { showSimpleActionSheet } = findByProps("showSimpleActionSheet");
 const showUserProfileActionSheet = findByName("showUserProfileActionSheet");
@@ -71,6 +72,47 @@ export default (review: Review, userPageId: string) => showSimpleActionSheet({
                     onConfirm: () => reportReview(review.id),
                 })
             }] : [])
-        ]: [])
+        ]: []),
+        ...(storage.developerThingies && (review.type !== 3 || review.timestamp == 0) /* you don't want to copy the system messages lol */ ? [
+            {
+                label: "Copy UNIX Timestamp",
+                onPress: () => {
+                    clipboard.setString(String(review.timestamp));
+                    showToast("Copied Review UNIX Timestamp", getAssetIDByName("ic_message_copy"));
+                }
+            },
+            {
+                label: "Copy JSON Review Data from this page",
+                onPress: async () => {
+                    try {
+                        const jsonData = await jsonFetch(API_URL + `/users/${userPageId}/reviews`);
+                        if (jsonData) {
+                            clipboard.setString(JSON.stringify(jsonData));
+                            showToast("Copied Review JSON Data", getAssetIDByName("ic_message_copy"));
+                        } else {
+                            showToast("Failed to fetch review data", getAssetIDByName("ic_close_16px"));
+                        }
+                    } catch (error) {
+                        showToast("Error fetching review data", getAssetIDByName("ic_close_16px"));
+                    }
+                }
+            },
+            {
+                label: "Copy JSON Review Data from this selected user",
+                onPress: async () => {
+                    try {
+                        const jsonData = await jsonFetch(API_URL + `/users/${review.sender.discordID}/reviews`);
+                        if (jsonData) {
+                            clipboard.setString(JSON.stringify(jsonData));
+                            showToast("Copied Review JSON Data", getAssetIDByName("ic_message_copy"));
+                        } else {
+                            showToast("Failed to fetch review data", getAssetIDByName("ic_close_16px"));
+                        }
+                    } catch (error) {
+                        showToast("Error fetching review data", getAssetIDByName("ic_close_16px"));
+                    }
+                }
+            }
+        ]: []),
     ]
 })

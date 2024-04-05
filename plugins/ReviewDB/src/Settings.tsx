@@ -31,6 +31,13 @@ export default () => {
                 />
             </FormSection>
             <FormSection title="Settings">
+            <FormSwitchRow
+                    label="Show warning"
+                    subLabel="Controls whether the review warning should be shown."
+                    leading={<FormRow.Icon source={getAssetIDByName("ic_warning_24px")} />}
+                    value={storage.showWarning}
+                    onValueChange={(v: boolean) => storage.showWarning = v}
+                />
                 <FormSwitchRow
                     label="Show timestamps"
                     subLabel="Controls whether timestamps should be shown."
@@ -44,6 +51,13 @@ export default () => {
                     leading={<FormRow.Icon source={getAssetIDByName("ic_paint_brush")} />}
                     value={storage.useThemedSend}
                     onValueChange={(v: boolean) => storage.useThemedSend = v}
+                />
+                <FormSwitchRow
+                    label="Show developer thingies :3"
+                    subLabel="Self-explanatory, lol."
+                    leading={<FormRow.Icon source={getAssetIDByName("ic_gear")} />}
+                    value={storage.developerThingies}
+                    onValueChange={(v: boolean) => storage.developerThingies = v}
                 />
             </FormSection>
         </RN.ScrollView>
