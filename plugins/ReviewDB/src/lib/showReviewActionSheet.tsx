@@ -73,7 +73,7 @@ export default (review: Review, userPageId: string) => showSimpleActionSheet({
                 })
             }] : [])
         ]: []),
-        ...(storage.developerThingies && (review.type !== 3 || review.timestamp == 0) /* you don't want to copy the system messages lol */ ? [
+        ...(storage.developerThingies ? [
             {
                 label: "Copy UNIX Timestamp",
                 onPress: () => {
