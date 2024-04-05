@@ -27,7 +27,7 @@ const { FormSubLabel } = Forms;
 export default ({ username, badges, timestamp }: ReviewUsernameProps) => (
     <RN.View style={styles.row}>
         <FormLabel text={username} style={{ color: useThemedColor("TEXT_NORMAL") }} />
-        <FormSubLabel text={timestamp} style={{ color: useThemedColor("TEXT_NORMAL"), ...styles.timeStamp }} />
+        <FormSubLabel text={timestamp} style={styles.timeStamp} />
         <RN.View style={styles.row}>{badges.map(b => <ReviewBadge badge={b} />)}</RN.View>
     </RN.View>
 )
