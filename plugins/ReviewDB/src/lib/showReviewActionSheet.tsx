@@ -17,7 +17,7 @@ export default (review: Review, userPageId: string) => showSimpleActionSheet({
     header: {
         title: review.type !== 3 ? `Review by ${review.sender.username}` : "ReviewDB System Message",
         // TODO: Return to the user profile
-        onClose: () => hideActionSheet(),
+        // onClose: () => hideActionSheet(),
     },
     options: [
         {
@@ -87,7 +87,7 @@ export default (review: Review, userPageId: string) => showSimpleActionSheet({
                     try {
                         const jsonData = await jsonFetch(API_URL + `/users/${userPageId}/reviews`);
                         if (jsonData) {
-                            clipboard.setString(JSON.stringify(jsonData));
+                            clipboard.setString(storage.beautifyJSON ? JSON.stringify(jsonData, null, 4) : JSON.stringify(jsonData));
                             showToast("Copied Review JSON Data", getAssetIDByName("ic_message_copy"));
                         } else {
                             showToast("Failed to fetch review data", getAssetIDByName("ic_close_16px"));
@@ -103,7 +103,7 @@ export default (review: Review, userPageId: string) => showSimpleActionSheet({
                     try {
                         const jsonData = await jsonFetch(API_URL + `/users/${review.sender.discordID}/reviews`);
                         if (jsonData) {
-                            clipboard.setString(JSON.stringify(jsonData));
+                            clipboard.setString(storage.beautifyJSON ? JSON.stringify(jsonData, null, 4) : JSON.stringify(jsonData));
                             showToast("Copied Review JSON Data", getAssetIDByName("ic_message_copy"));
                         } else {
                             showToast("Failed to fetch review data", getAssetIDByName("ic_close_16px"));

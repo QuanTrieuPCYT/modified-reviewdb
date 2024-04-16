@@ -10,6 +10,7 @@ storage.showWarning ??=true;
 storage.timestamps ??=true;
 storage.useThemedSend ??= true;
 storage.developerThingies ??=false;
+storage.beautifyJSON ??=false;
 
 const patches = [
     exposeAPI(),

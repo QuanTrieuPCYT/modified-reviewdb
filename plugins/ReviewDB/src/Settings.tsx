@@ -59,6 +59,14 @@ export default () => {
                     value={storage.developerThingies}
                     onValueChange={(v: boolean) => storage.developerThingies = v}
                 />
+                <FormSwitchRow
+                    label="Beautify copied JSON data"
+                    subLabel="Beautify the retrieved ReviewDB JSON data before copying it to clipboard. Note that this will significantly increase the data of your clipboard when using."
+                    leading={<FormRow.Icon source={getAssetIDByName("ic_essentials_sparkle")} />}
+                    value={storage.beautifyJSON}
+                    onValueChange={(v: boolean) => storage.beautifyJSON = v}
+                    disabled={!storage.developerThingies}
+                />
             </FormSection>
         </RN.ScrollView>
     )
